@@ -1,0 +1,79 @@
+"use strict";
+
+const { record, stripAnsi, PAYLOAD } = require("../helpers");
+const {
+  renderStatusline,
+  defaultConfig,
+  mergeConfig,
+  resolveColorDepth,
+  rgbToAnsi256,
+} = require("../../src/lib/shared");
+
+async function run() {
+  const base = {
+    ...JSON.parse(PAYLOAD),
+    vcs: { type: "git", branch: "main", dirty: true },
+  };
+  const emptyEnv = {};
+
+  for (const layout of ["pills", "lines"]) {
+    const out = stripAnsi(
+      renderStatusline(base, { ...defaultConfig(), layout, ascii: true }, { env: emptyEnv })
+    );
+    const nonAscii = [...out].filter((c) => c.codePointAt(0) > 127);
+    record(
+      `ascii ${layout} layout is pure ASCII`,
+      nonAscii.length === 0,
+      nonAscii.length ? [...new Set(nonAscii)].join(" ") : "no caps/joins/dots outside ASCII"
+    );
+  }
+
+  const colored = renderStatusline(base, defaultConfig(), {
+    color: "256",
+    env: emptyEnv,
+  });
+  record(
+    "256-color mode uses 38;5/48;5 only",
+    /38;5;/.test(colored) && !/38;2;/.test(colored) && !/48;2;/.test(colored)
+  );
+
+  const plain = renderStatusline(base, defaultConfig(), {
+    color: "none",
+    env: emptyEnv,
+  });
+  record(
+    "no-color mode emits no fg/bg sequences",
+    !/\x1b\[(38|48);/.test(plain) && /Gemini/.test(stripAnsi(plain))
+  );
+
+  record(
+    "NO_COLOR env resolves to none",
+    resolveColorDepth({ configColor: "auto", env: { NO_COLOR: "1" } }) === "none"
+  );
+  record(
+    "256color TERM resolves to 256",
+    resolveColorDepth({ configColor: "auto", env: { TERM: "xterm-256color" } }) === "256"
+  );
+  record(
+    "COLORTERM truecolor resolves to truecolor",
+    resolveColorDepth({ configColor: "auto", env: { COLORTERM: "truecolor" } }) === "truecolor"
+  );
+  record(
+    "empty env keeps historical truecolor default",
+    resolveColorDepth({ configColor: "auto", env: {} }) === "truecolor"
+  );
+  record(
+    "explicit CLI flag beats NO_COLOR",
+    resolveColorDepth({ configColor: "auto", cliColor: "256", env: { NO_COLOR: "1" } }) === "256"
+  );
+  record("pure red maps to xterm 196", rgbToAnsi256([255, 0, 0]) === 196);
+  record(
+    "mergeConfig keeps ascii and color",
+    (() => {
+      const merged = mergeConfig({ ascii: true, color: "256" });
+      return merged.ascii === true && merged.color === "256";
+    })()
+  );
+}
+
+module.exports = { run };

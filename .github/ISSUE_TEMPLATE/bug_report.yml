@@ -1,0 +1,86 @@
+name: Bug Report
+description: Report an issue, glitch, rendering bug, or incorrect behavior
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue! Please fill out the sections below so we can diagnose and fix it quickly.
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: Which operating system are you running?
+      options:
+        - Windows 11
+        - Windows 10
+        - WSL (Ubuntu / Debian)
+        - macOS (Apple Silicon)
+        - macOS (Intel)
+        - Linux (Ubuntu / Debian / Fedora / Arch)
+    validations:
+      required: true
+  - type: dropdown
+    id: terminal
+    attributes:
+      label: Terminal Emulator
+      description: Which terminal are you running Antigravity in?
+      options:
+        - Windows Terminal
+        - Ghostty
+        - iTerm2
+        - VS Code Integrated Terminal
+        - Alacritty
+        - Kitty
+        - WezTerm
+        - Apple Terminal
+        - PowerShell / cmd.exe native console
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: font_check
+    attributes:
+      label: Font & Glyph Support
+      options:
+        - label: I have a Nerd Font installed and configured in my terminal (e.g. JetBrainsMono Nerd Font, MesloLGS NF)
+          required: false
+  - type: textarea
+    id: report
+    attributes:
+      label: Output of `agy-powerline report`
+      description: Run `npx agy-powerline report` and paste the output here, or `npx agy-powerline report -o report.md` and attach the file. It holds your system info, a summary of your setup and the local problem log, and no personal data (no names, paths, email or session data). Read it before posting.
+      placeholder: |
+        ## agy-powerline report
+        ...
+      render: markdown
+    validations:
+      required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+      placeholder: When I switch to lines layout, the statusline overlaps or fails to render...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Run `npx agy-powerline layout lines`
+        2. Launch Antigravity
+        3. See error or unexpected output
+    validations:
+      required: true
+  - type: textarea
+    id: payload_dump
+    attributes:
+      label: Antigravity Payload (Optional)
+      description: For a rendering glitch in a specific session state, set `AGY_POWERLINE_DEBUG=1`, reproduce the glitch, and paste `~/.agy-powerline/last-payload.json`. It keeps only the fields the bar uses, without your email, session IDs or folder paths.
+      render: json
+    validations:
+      required: false

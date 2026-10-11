@@ -1,0 +1,3 @@
+#!/bin/sh
+# Checks the message follows Conventional Commits. Installed by `npm install`.
+exec node scripts/hooks/commit-message.js "$1"

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a Question / GitHub Discussions
+    url: https://github.com/wassim-azi/agy-powerline/discussions
+    about: Ask questions, share your custom themes, or discuss ideas with the community.
+  - name: Documentation
+    url: https://github.com/wassim-azi/agy-powerline#readme
+    about: Read the official documentation and configuration reference.

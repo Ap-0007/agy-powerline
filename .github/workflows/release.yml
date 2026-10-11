@@ -1,0 +1,70 @@
+name: Release
+
+# Publishes to npm when a GitHub release is published from a tag on main.
+# This is the only way a version reaches npm or any other platform. Uses npm trusted
+# publishing (OIDC): no long-lived npm token is stored in the repo, and the
+# package gets a provenance attestation linking it to this workflow run.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    # Create this environment in GitHub (Settings > Environments) with
+    # required reviewers so every publish needs a manual approval.
+    environment: npm-publish
+    permissions:
+      contents: read
+      id-token: write # required for trusted publishing and provenance
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # full history, to check the tag is on main
+
+      # Releases are cut from main only. A tag on develop or any other branch
+      # is refused before anything is published.
+      - name: Check the release commit is on main
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::The release tag points to a commit that is not on main. Merge develop into main first, then tag main."
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.x
+          registry-url: https://registry.npmjs.org
+
+      - name: Check the release tag matches package.json
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "Release tag $TAG does not match package.json version $VERSION"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      # Trusted publishing (OIDC) is used when configured on npmjs.com. The
+      # NPM_TOKEN secret is only a fallback for the very first publish, before
+      # the package exists and a trusted publisher can be set up. Delete it
+      # afterwards (see TODO.md).
+      - name: Publish with provenance
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

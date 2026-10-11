@@ -1,0 +1,4 @@
+#!/bin/sh
+# Checks formatting and lint on staged files. Installed by `npm install`.
+# Skip once with `git commit --no-verify` (CI still checks).
+exec node scripts/hooks/pre-commit.js

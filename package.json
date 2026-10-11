@@ -1,0 +1,69 @@
+{
+  "name": "agy-powerline",
+  "version": "1.0.0",
+  "description": "Interactive statusline for Google Antigravity",
+  "bin": {
+    "agy-powerline": "src/index.js"
+  },
+  "author": "Wassim AZI (https://github.com/wassim-azi)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wassim-azi/agy-powerline.git"
+  },
+  "homepage": "https://github.com/wassim-azi/agy-powerline#readme",
+  "bugs": {
+    "url": "https://github.com/wassim-azi/agy-powerline/issues"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node src/index.js",
+    "configure": "node src/index.js configure",
+    "theme": "node src/index.js theme",
+    "layout": "node src/index.js layout",
+    "preset": "node src/index.js preset",
+    "init": "node src/index.js init",
+    "doctor": "node src/index.js doctor",
+    "uninstall": "node src/index.js uninstall",
+    "test": "node --test tests/shared.js && node --test tests/platform.js",
+    "test:shared": "node --test tests/shared.js",
+    "test:platform": "node --test tests/platform.js",
+    "test:update": "node tests/update-snapshots.js",
+    "test:coverage": "node --test --experimental-test-coverage tests/shared.js",
+    "gallery": "node scripts/gallery/build.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "node scripts/hooks/install.js",
+    "lint:commits": "node scripts/hooks/commit-message.js --range"
+  },
+  "keywords": [
+    "antigravity",
+    "agy-powerline",
+    "statusline",
+    "status-line",
+    "powerline",
+    "cli",
+    "terminal",
+    "gemini"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "eslint": "9.39.5",
+    "globals": "17.12.0",
+    "prettier": "3.9.8"
+  }
+}

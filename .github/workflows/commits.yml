@@ -1,0 +1,41 @@
+name: Commit messages
+
+# The commit-msg hook can be skipped locally (--no-verify), so CI checks every
+# commit in the PR and the PR title (used as the message when squash-merging)
+# against Conventional Commits.
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # full history, to read every commit in the PR
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.x
+
+      # PR title and SHAs are passed through env vars, never interpolated
+      # into the script, because the title is user input.
+      - name: Check the PR title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: node scripts/hooks/commit-message.js --message "$TITLE"
+
+      - name: Check every commit in the PR
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/hooks/commit-message.js --range "$BASE..$HEAD"

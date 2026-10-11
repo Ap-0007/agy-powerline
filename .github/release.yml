@@ -1,0 +1,20 @@
+# Categories for GitHub's auto-generated release notes, by pull request label.
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+    authors:
+      - dependabot
+  categories:
+    - title: Security
+      labels: [security]
+    - title: New features
+      labels: [enhancement, widget, theme]
+    - title: Bug fixes
+      labels: [bug]
+    - title: Platform support
+      labels: ["platform: windows", "platform: macos", "platform: linux", "platform: wsl"]
+    - title: Documentation
+      labels: [documentation]
+    - title: Other changes
+      labels: ["*"]

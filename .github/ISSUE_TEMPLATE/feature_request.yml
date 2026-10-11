@@ -1,0 +1,47 @@
+name: Feature Request
+description: Suggest an idea, new widget, theme, layout, or enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve agy-powerline! Please explain your idea or proposed feature below.
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feature Category
+      description: What part of agy-powerline does this relate to?
+      options:
+        - New Widget (e.g. Docker, Git ahead/behind, CPU, etc.)
+        - New Theme (color palette)
+        - New Layout / Layout Enhancement
+        - CLI Command / UX Improvement
+        - Documentation / Testing
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Motivation
+      description: Is your feature request related to a problem or missing capability?
+      placeholder: I am always wondering whether my git branch is ahead of origin...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution / Design
+      description: Describe what you want to happen and how it could look.
+      placeholder: |
+        In the pills layout, add a new widget `git_sync` that displays `⇡2 ⇣1`.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or features you've considered.
+    validations:
+      required: false

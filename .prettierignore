@@ -1,0 +1,6 @@
+node_modules/
+package-lock.json
+gallery.html
+tests/snapshots/
+tests/fixtures/
+assets/
