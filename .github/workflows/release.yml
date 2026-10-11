@@ -66,11 +66,8 @@ jobs:
       - name: Remove repo-only scripts
         run: npm pkg delete scripts.prepare
 
-      # Trusted publishing (OIDC) is used when configured on npmjs.com. The
-      # NPM_TOKEN secret is only a fallback for the very first publish, before
-      # the package exists and a trusted publisher can be set up. Delete it
-      # afterwards (see TODO.md).
+      # Authenticates with npm trusted publishing (OIDC, configured on
+      # npmjs.com for this workflow and environment): no npm token exists.
+      # Needs npm 11.5.1 or later, which Node 24 ships with.
       - name: Publish with provenance
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
