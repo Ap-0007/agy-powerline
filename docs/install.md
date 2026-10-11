@@ -22,7 +22,7 @@ What `npx agy-powerline init` does, where files go, and how to set things up by 
 | macOS   | `statusline.js`, its library files                   | `'/opt/homebrew/bin/node' '/Users/you/.agy-powerline/statusline.js'` |
 | Linux   | `statusline.js`, its library files                   | `'/usr/bin/node' '/home/you/.agy-powerline/statusline.js'`           |
 
-- The Node path is the binary that ran `init` (`process.execPath`), not a hard-coded Homebrew or `/usr/bin` path.
+- The Node path is the binary that ran `init` (`process.execPath`), not a hard-coded Homebrew or `/usr/bin` path, so the bar works even when Antigravity starts without your shell's `PATH` (for example with nvm). If you later remove that Node version, run `init --yes` again with the new one.
 - On macOS and Linux the settings run `node statusline.js` directly, so no launcher file is written. They use `sh -c` with single-quoted Node and script paths so spaces in the home folder stay intact.
 - Windows uses `statusline.cmd` because Antigravity runs `cmd /c`. Do not put quotes around the `.cmd` path in `settings.json`.
 - Starting `agy` from cmd, PowerShell, bash, zsh, or fish does not change this. Antigravity spawns the statusline itself.

@@ -202,7 +202,9 @@ async function doctorCommand(options = {}) {
     console.log();
     if (result.code === 0 && /[A-Za-z]/.test(preview)) {
       line("spawn", `${GREEN}ok${RESET} (${ms}ms)`);
-      line("output", preview.slice(0, 120));
+      // The flex separator pads to the terminal width; shrink those gaps so
+      // the widgets fit in the preview on wide terminals.
+      line("output", preview.replace(/ {3,}/g, "  ").slice(0, 120));
     } else {
       failed += 1;
       line("spawn", `${RED}failed${RESET} exit ${result.code} (${ms}ms)`);
