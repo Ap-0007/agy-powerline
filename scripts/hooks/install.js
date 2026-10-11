@@ -1,7 +1,8 @@
 "use strict";
 
 // Runs on `npm install` (the "prepare" script) in a clone of the repo and
-// points git at .githooks/. Installs from the npm registry never run it.
+// points git at .githooks/. The release removes "prepare" from the published
+// package (see release.yml), so installs from npm never see or run it.
 // It never fails the install: outside a git checkout it does nothing.
 // Messages go to stderr so they never mix with JSON output (npm pack --json).
 

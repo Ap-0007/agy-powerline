@@ -77,15 +77,21 @@ jobs:
       - name: Verify bug report command
         run: node src/index.js report
 
-      - name: Verify published file list
+      # Same as release.yml: the repo-only "prepare" script is removed before
+      # packing, so the published package has no install scripts.
+      - name: Verify published package
         shell: bash
         run: |
+          npm pkg delete scripts.prepare
           npm pack --dry-run --json > pack.json
           node -e "
             const files = require('./pack.json')[0].files.map((f) => f.path);
             const bad = files.filter((f) => !/^(src\/|README\.md$|CHANGELOG\.md$|LICENSE$|package\.json$)/.test(f));
             if (bad.length) throw new Error('Unexpected files in package: ' + bad.join(', '));
-            console.log(files.length + ' files OK');
+            const scripts = require('./package.json').scripts || {};
+            const hooks = ['preinstall', 'install', 'postinstall', 'prepare'].filter((s) => s in scripts);
+            if (hooks.length) throw new Error('Install scripts in package: ' + hooks.join(', '));
+            console.log(files.length + ' files OK, no install scripts');
           "
 
   gallery:

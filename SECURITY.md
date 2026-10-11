@@ -67,7 +67,7 @@ Text that does not come from your own config (payload fields, branch names, comm
 
 - Zero runtime dependencies.
 - Releases are published from GitHub Actions with [npm provenance](https://docs.npmjs.com/generating-provenance-statements), so you can verify that a published version was built from this repository.
-- No install scripts (`preinstall`, `postinstall`).
+- No install scripts (`preinstall`, `install`, `postinstall`, `prepare`) in the published package; CI checks this on every change.
 
 ---
 

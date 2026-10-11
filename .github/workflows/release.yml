@@ -60,6 +60,12 @@ jobs:
       - name: Run tests
         run: npm test
 
+      # "prepare" only turns on git hooks in a clone of the repo. Leave it out
+      # of the published package so installs carry no install script (npm warns
+      # about those). CI runs the same command before checking the package.
+      - name: Remove repo-only scripts
+        run: npm pkg delete scripts.prepare
+
       # Trusted publishing (OIDC) is used when configured on npmjs.com. The
       # NPM_TOKEN secret is only a fallback for the very first publish, before
       # the package exists and a trusted publisher can be set up. Delete it
