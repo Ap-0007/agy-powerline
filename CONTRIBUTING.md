@@ -216,15 +216,15 @@ Add the widget to the widget table in `README.md` and to the Widgets list in `do
 
 ## 🎨 How to Add a New Theme
 
-Themes live in **one file** (`src/lib/themes.js`). There is room for at most 7 dark, 4 light and 2 color-blind themes, so a new theme usually replaces an existing one.
+Themes live in **one file** (`src/lib/themes.js`). There is room for at most 9 dark, 4 light and 2 color-blind themes, so a new theme usually replaces an existing one.
 
 1. Add the theme to `THEMES` and `THEME_ORDER`. The id starts with its kind (`dark-`, `light-` or `colorblind-`):
    ```javascript
    "dark-example": theme("dark", "Dark Example", "One-line description", {
-     text: DARK_TEXT, track: "#4a4e5e",
-     model: "#c4a7ff", fiveHour: "#8ee6a0", weekly: "#7fd6ee",
-     thirdParty: "#ffb995", context: "#8fb4ff", git: "#d8c4ff", gitDirty: "#ffc68a",
-     meta: "#bfc6d9", caution: "#ffd56b", warn: "#ff8b8b",
+     text: DARK_TEXT, track: "#4b4b4b",
+     model: "#c586c0", fiveHour: "#73c991", weekly: "#9cdcfe",
+     thirdParty: "#ce9178", context: "#569cd6", git: "#4ec9b0", gitDirty: "#e2c08d",
+     meta: "#cccccc", caution: "#cca700", warn: "#f48771",
    }),
    ```
    Dark themes use bright colors with `DARK_TEXT`; light themes use deep colors with `LIGHT_TEXT` (white).

@@ -69,8 +69,8 @@ function testTightestQuota() {
     { ...defaultConfig(), widgets: quota },
     { color: "truecolor" }
   );
-  // dark-aurora danger color #ff8b8b at 3% left.
-  record("quota turns to the danger color when nearly used up", low.includes("2;255;139;139m"));
+  // dark-aurora danger color #f48771 at 3% left.
+  record("quota turns to the danger color when nearly used up", low.includes("2;244;135;113m"));
 
   const lines = render(real, quota, { layout: "lines" });
   record(

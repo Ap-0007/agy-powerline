@@ -11,7 +11,7 @@
 See your model, Gemini 5h/7d quotas, context window, git branch and more at a glance. Pick widgets, themes and layout from an interactive editor. One command to install, no dependencies.
 
 <p align="center">
-  <img src="assets/screenshots/pills-layout.png" alt="agy-powerline Pills layout: agent state, model, plan, project and git; context, tokens and cache; 5h and 7d quotas with resets" width="850">
+  <img src="assets/screenshots/pills-dark.png" alt="agy-powerline Pills layout with the dark-ocean theme: agent state, model, plan, project and git; context; 5h and 7d quotas with resets" width="850">
 </p>
 
 ## Install
@@ -48,12 +48,12 @@ Start from a preset, then adjust:
 
 ### Themes
 
-| Terminal background | Themes                                                                                       |
-| ------------------- | -------------------------------------------------------------------------------------------- |
-| Dark                | `dark-aurora` (default), `dark-ocean`, `dark-ember`, `dark-forest`, `dark-neon`, `dark-mono` |
-| Light               | `light-paper`, `light-sky`, `light-sunset`                                                   |
-| Color-blind safe    | `colorblind-dark`, `colorblind-light`                                                        |
-| Your own colors     | `custom` ([how](docs/configuration.md#custom-theme))                                         |
+| Terminal background | Themes                                                                                                                                   |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Dark                | `dark-aurora` (default), `dark-ocean`, `dark-ember`, `dark-forest`, `dark-neon`, `dark-mono`, `dark-nocturne`, `dark-onyx`, `dark-metro` |
+| Light               | `light-paper`, `light-sky`, `light-sunset`, `light-cream`                                                                                |
+| Color-blind safe    | `colorblind-dark`, `colorblind-light`                                                                                                    |
+| Your own colors     | `custom` ([how](docs/configuration.md#custom-theme))                                                                                     |
 
 Preview them all with `npx agy-powerline theme --gallery`.
 
@@ -62,13 +62,14 @@ Preview them all with `npx agy-powerline theme --gallery`.
 **Pills** (default): powerline-style capsules. Choose round, angled, slanted or flat shapes, and optionally a blank line between rows.
 
 <p align="center">
-  <img src="assets/screenshots/pills-row-gap.png" alt="agy-powerline Pills layout with the dark-ocean theme and space between rows" width="850">
+  <img src="assets/screenshots/pills-light.png" alt="agy-powerline Pills layout with the light-sky theme on a light terminal, with space between rows" width="850">
 </p>
 
 **Lines**: the same information as plain colored text.
 
 <p align="center">
-  <img src="assets/screenshots/lines-layout.png" alt="agy-powerline Lines layout: model, context and git; 5h and 7d quotas with resets" width="850">
+  <img src="assets/screenshots/lines-dark.png" alt="agy-powerline Lines layout with the dark-ocean theme on a dark terminal" width="850">
+  <img src="assets/screenshots/lines-light.png" alt="agy-powerline Lines layout with the light-sky theme on a light terminal" width="850">
 </p>
 
 ## Widgets
