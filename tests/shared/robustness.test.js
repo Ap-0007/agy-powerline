@@ -83,30 +83,62 @@ function testWrongPayloadTypes() {
 }
 
 // Several agy windows refresh at once and share the exec cache. A reader must
-// never see a half-written file while other processes rewrite it.
+// never see a half-written file while other processes rewrite it. The writers
+// keep going until the reader has seen enough of their output (or a deadline
+// passes), so the overlap doesn't depend on how fast the runner starts them.
 async function testConcurrentExecCache() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "agy-exec-cache-"));
   fs.writeFileSync(path.join(dir, "statusline.config.json"), "{}");
+  const file = path.join(dir, ".exec-cache.json");
+  const stopFile = path.join(dir, "stop");
   const lib = path.join(ROOT, "src", "lib").replace(/\\/g, "/");
   const writer = [
+    'const fs = require("fs");',
     `const { setConfigDir } = require("${lib}/config");`,
     `const { saveDiskCache } = require("${lib}/exec");`,
     `setConfigDir(${JSON.stringify(dir)});`,
     "const big = { output: 'x'.repeat(200000), timestamp: Date.now() };",
-    "for (let i = 0; i < 150; i++) saveDiskCache({ [String(i)]: big });",
+    "const deadline = Date.now() + 20000;",
+    `for (let i = 0; !fs.existsSync(${JSON.stringify(stopFile)}) && Date.now() < deadline; i++) {`,
+    "  saveDiskCache({ [String(i)]: big });",
+    "}",
   ].join("\n");
 
-  const writers = Array.from({ length: 4 }, () => spawn(NODE, ["-e", writer], { stdio: "ignore" }));
-  const done = Promise.all(writers.map((child) => new Promise((ok) => child.on("exit", ok))));
-  const file = path.join(dir, ".exec-cache.json");
+  let stderr = "";
+  const writers = Array.from({ length: 4 }, () =>
+    spawn(NODE, ["-e", writer], { stdio: ["ignore", "ignore", "pipe"] })
+  );
+  const done = Promise.all(
+    writers.map(
+      (child) =>
+        new Promise((ok) => {
+          child.stderr.on("data", (chunk) => {
+            stderr += chunk;
+          });
+          child.on("error", (err) => {
+            stderr += err.message;
+            ok(-1);
+          });
+          child.on("exit", (code) => ok(code));
+        })
+    )
+  );
   let reads = 0;
   let torn = 0;
+  let codes = [];
   let finished = false;
-  done.then(() => {
+  done.then((exitCodes) => {
+    codes = exitCodes;
     finished = true;
   });
 
+  const deadline = Date.now() + 15000;
+  let stopped = false;
   while (!finished) {
+    if (!stopped && (reads >= 50 || Date.now() > deadline)) {
+      fs.writeFileSync(stopFile, "");
+      stopped = true;
+    }
     try {
       JSON.parse(fs.readFileSync(file, "utf8"));
       reads += 1;
@@ -122,8 +154,9 @@ async function testConcurrentExecCache() {
   fs.rmSync(dir, { recursive: true, force: true });
   record(
     "the exec cache is never seen half-written while other processes write it",
-    torn === 0 && reads > 0 && leftovers.length === 0,
-    `${reads} reads, ${torn} torn, ${leftovers.length} temp files left`
+    torn === 0 && reads > 0 && leftovers.length === 0 && codes.every((code) => code === 0),
+    `${reads} reads, ${torn} torn, ${leftovers.length} temp files left, ` +
+      `writer exit codes ${codes.join(",")}${stderr ? `, stderr: ${stderr.slice(0, 300)}` : ""}`
   );
 }
 
