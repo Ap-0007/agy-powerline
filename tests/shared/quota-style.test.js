@@ -147,7 +147,7 @@ function testStyling() {
   record("a widget color can be hex (pill background)", hex.includes("48;2;255;0;0m"));
   record(
     "a widget color can name a theme slot",
-    colored({ widgets: [{ id: "model", color: "git" }] }).includes("48;2;216;196;255m")
+    colored({ widgets: [{ id: "model", color: "git" }] }).includes("48;2;78;201;176m")
   );
   record(
     "a widget color can be a basic name",
@@ -163,7 +163,7 @@ function testStyling() {
   const alert = colored({ widgets: [{ id: "fiveHourBar", color: "#00ff00" }] }, low);
   record(
     "alert colors win over the widget color",
-    alert.includes("48;2;255;139;139m") && !alert.includes("48;2;0;255;0m")
+    alert.includes("48;2;244;135;113m") && !alert.includes("48;2;0;255;0m")
   );
   record(
     "a healthy quota uses the widget color",
@@ -181,7 +181,7 @@ function testStyling() {
   record(
     "exec keeps accepting slot and basic color names",
     colored({ widgets: [{ id: "exec", cmd: "x", color: "model" }] }).includes(
-      "48;2;196;167;255m"
+      "48;2;197;134;192m"
     ) &&
       colored({ layout: "lines", widgets: [{ id: "exec", cmd: "x", color: "blue" }] }).includes(
         "38;2;0;153;255m"
