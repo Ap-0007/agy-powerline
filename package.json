@@ -44,13 +44,22 @@
   },
   "keywords": [
     "antigravity",
+    "antigravity-cli",
+    "google-antigravity",
+    "agy",
+    "agy-cli",
     "agy-powerline",
     "statusline",
     "status-line",
     "powerline",
     "cli",
     "terminal",
-    "gemini"
+    "tui",
+    "gemini",
+    "gemini-cli",
+    "quota",
+    "nerd-fonts",
+    "windows"
   ],
   "license": "MIT",
   "engines": {

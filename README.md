@@ -136,7 +136,7 @@ Full details: [SECURITY.md](SECURITY.md).
 
 ## Contributing
 
-Contributions are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md) (setup, architecture, adding a widget or theme) and the [Code of Conduct](CODE_OF_CONDUCT.md). Open pull requests against `develop`. Report bugs and ask questions in [GitHub issues](https://github.com/wassim-azi/agy-powerline/issues).
+Contributions are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md) (setup, architecture, adding a widget or theme) and the [Code of Conduct](CODE_OF_CONDUCT.md). Open pull requests against `develop`. Report bugs in [GitHub issues](https://github.com/wassim-azi/agy-powerline/issues) or share ideas and feedback in [Discussions](https://github.com/wassim-azi/agy-powerline/discussions).
 
 ## License
 
