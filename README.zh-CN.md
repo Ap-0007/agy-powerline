@@ -1,0 +1,1 @@
+<p>... translated text in Simplified Chinese...</p>
